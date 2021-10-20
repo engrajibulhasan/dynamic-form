@@ -31,8 +31,19 @@ function Body() {
       <EditPageSubmitButton />
     </>
   ):(
-    fields.map(dt=>dt.page)
-
+    
+    fields.map((dt,index)=>{
+        return (
+            
+            <Row className="single-input-area mb-3">
+                <EditActionButtons  allInfo={{currentPage:dt.page,prevFieldType:dt.type,prevIndex:index-1}} addInputField={addInputField}/>
+                <EditInputFields allInfo={dt}/>
+            </Row>
+            
+            
+        )
+    })
+   
   );
 
   //showFields();
