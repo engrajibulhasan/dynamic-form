@@ -1,0 +1,40 @@
+
+
+/* Form Design */
+.form-title {
+    width: 100%;
+    font-size: 28px;
+    font-weight: 700;
+    color: black;
+    margin: 25px 0;
+    border: navajowhite;
+}
+
+.form-input:focus,
+.form-input:focus-visible{
+    border: none;
+    outline: none;
+} 
+
+.single-input-area{}
+.input-area>div{
+    padding: 5px;
+}
+
+.action-buttons{
+    display: flex;
+    justify-content:flex-end;
+
+}
+.action-buttons button {
+    display: inline-block;
+    padding: .3rem .7rem;
+    margin: 1px;
+    transition: 300ms;
+    cursor: pointer;
+    background-color: #efefef;
+}
+
+.action-buttons button:hover{
+    background-color:#dfdfdf;
+}
