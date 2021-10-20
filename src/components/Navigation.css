@@ -48,6 +48,11 @@ ul{
     align-items: center;
 }
 
+.header-right svg {
+    font-size: 1.75em;
+    margin: 0 5px;
+}
+
 .MuiAvatar-root {
     width: 35px;
     height: 35px;

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './Navigation.css';
 function Navigation() {
     return (
-        <header className="header-area">
+        <header className="header-area container-fluid">
             <div className="header-left">
                  Event
             </div>
