@@ -27,7 +27,7 @@ function ModalAdd(props) {
       </>
     );
     setRigthContent(initialData);
-  }, []);
+  }, [show]);
 
   return (
     <>

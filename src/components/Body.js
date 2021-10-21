@@ -8,6 +8,9 @@ import EditInputFields from "./shared/EditInputFields";
 import EditPageSubmitButton from "./shared/EditPageSubmitButton";
 import ModalAdd from "./shared/ModalAdd";
 
+
+
+
 function Body() {
   //Field Data
   const [formName, setFormName] = useState("Form Title");
@@ -18,6 +21,7 @@ function Body() {
       placeholder: "Button Page 1",
     },
   ]);
+
 
 
   // Modal Code
@@ -33,7 +37,8 @@ function Body() {
   //End Modal related code
 
 
-  // Handle New Page
+
+  // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
   const addNewPage = () => {
     let oldFields = [...fields];
@@ -41,7 +46,7 @@ function Body() {
     const newPageBtn = {
       page: currentPage,
       type: "button",
-      placeholder: "Button Page " + currentPage,
+      placeholder: "Next Page",
     };
     oldFields.push(newPageBtn);
     setFields(oldFields);
@@ -49,10 +54,27 @@ function Body() {
   };
 
 
+
+  // Page Remove functionality
   const removePage=(pageNumber)=>{
-    setTotalPage(totalPage-1);
+    //setTotalPage(totalPage-1);
     console.log('Remove page number',pageNumber);
+    const keepFields=fields.filter(dt=>dt.page!=pageNumber);
+    setFields(keepFields);
+    setTotalPage(totalPage-1);
+    console.log('after removal',fields);
   }
+
+
+
+  const removeFieldItem=(index)=>{
+    console.log('remove index number',index);
+    let oldFields = [...fields];
+    oldFields.splice(index, 1);
+    setFields(oldFields);
+  }
+
+
 
   //Open Modal and Passing Current (clicked) Field object
   const handleModal = (allInfo) => {
@@ -61,12 +83,15 @@ function Body() {
     setShow(true);
   };
 
+
+
+  //Add New Input Field functionality
   const addInputField = (newFieldData) => {
-    //Modal Close
     setShow(false);
 
     const { page, type, index, newFieldType } = newFieldData;
     let oldFields = [...fields];
+
     //New Field Object
     const newFieldObj = {
       page: page,
@@ -80,32 +105,33 @@ function Body() {
       let newField = oldFields.splice(index + 1, 0, newFieldObj);
     }
 
-    //Fields state updating with new data
     setFields(oldFields);
     console.log('all fields',fields);
   };
 
-  //Showing All Fields
+
+
+  //Showing All Fields from fields Array
   const showFields = () => {
+    let i=1;//Page counter
     return fields.map((dt, index) => {
-      
       return (
         <>
           <EditInputFields
             allInfo={{ ...dt, index: index }}
             handleModal={handleModal}
             addInputField={addInputField}
+            removeFieldItem={removeFieldItem}
           />
-          {dt.type === "button" && totalPage > 1 && totalPage > dt.page && (
-            
+          {dt.type === "button" &&  totalPage>i   && (           
             <div className="page-devider">
-              <Button variant="dark" onClick={()=>removePage(dt.page+1)}>
+              <Button variant="dark" onClick={()=>removePage(fields[index+1].page)}>
                 <FontAwesomeIcon icon={["far", "trash-alt"]} />
               </Button>
               <div className="horizontal-line-area">
                  <div></div>
-                <div>Page {dt.page+1}</div>
-                <div></div>`
+                <div>Page {++i}</div>
+                <div></div>
               </div>
             </div>
             
@@ -115,6 +141,9 @@ function Body() {
     });
   };
 
+
+
+  console.log('All Fields ====',fields);
   return (
     <>
       <Navigation addNewPage={addNewPage} />

@@ -3,7 +3,7 @@ import { Button, Form, Row } from 'react-bootstrap'
 import EditActionButtons from './EditActionButtons';
 import EditPageSubmitButton from './EditPageSubmitButton';
 
-function EditInputFields({allInfo,handleModal,addInputField}) {
+function EditInputFields({allInfo,handleModal,addInputField,removeFieldItem}) {
     const {page,type,placeholder,index}=allInfo;
    
     const filedFilter=()=>{
@@ -14,6 +14,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                         allInfo={allInfo}
                         handleModal={handleModal}
                         addInputField={addInputField}
+                        removeFieldItem={removeFieldItem}
                     />
                     <div className="col-lg-10">
                     <Form.Control as="textarea" rows={3}  placeholder={placeholder}/>
@@ -29,6 +30,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                     allInfo={allInfo}
                     handleModal={handleModal}
                     addInputField={addInputField}
+                    isButton
                 />
                 </Row>
                 <EditPageSubmitButton btnInfo={allInfo}/>
@@ -41,6 +43,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                         allInfo={allInfo}
                         handleModal={handleModal}
                         addInputField={addInputField}
+                        removeFieldItem={removeFieldItem}
                     />
                     <div className="col-lg-10">
                         <Form.Control type={type} placeholder={placeholder} />
