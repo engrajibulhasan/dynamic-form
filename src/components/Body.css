@@ -77,3 +77,32 @@
     font-size: 0.75em;
     
 }
+
+.modal-100w {
+    width: 100%;
+    max-width: none!important;
+    margin: 0;
+    border: none;
+    height: 100vh;
+}
+
+.modal-100w .modal-content {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    border-radius: inherit;
+    box-shadow: none;
+}
+
+.preview-body{}
+.preview-body .container{
+    
+}
+
+.poreview-form-holder{
+    background-color: aqua;
+}
+
+
+

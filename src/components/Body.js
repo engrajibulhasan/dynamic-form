@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Container, Row } from "react-bootstrap";
+import { Button, Container, Modal, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
 import Navigation from "./Navigation";
@@ -7,9 +7,6 @@ import EditActionButtons from "./shared/EditActionButtons";
 import EditInputFields from "./shared/EditInputFields";
 import EditPageSubmitButton from "./shared/EditPageSubmitButton";
 import ModalAdd from "./shared/ModalAdd";
-
-
-
 
 function Body() {
   //Field Data
@@ -21,8 +18,6 @@ function Body() {
       placeholder: "Button Page 1",
     },
   ]);
-
-
 
   // Modal Code
   const [show, setShow] = useState(false);
@@ -36,7 +31,17 @@ function Body() {
   });
   //End Modal related code
 
+  // Preview Modal
+  const [fullscreen, setFullscreen] = useState(true);
+  const [previewModal, setPreviewModal] = useState(false);
+  // Preview Modal ends
 
+  //preview
+  const preview = () => {
+    setFullscreen('lg-down');
+    setPreviewModal(true);
+    console.log(previewModal);
+  };
 
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
@@ -53,28 +58,23 @@ function Body() {
     setTotalPage(currentPage);
   };
 
-
-
   // Page Remove functionality
-  const removePage=(pageNumber)=>{
+  const removePage = (pageNumber) => {
     //setTotalPage(totalPage-1);
-    console.log('Remove page number',pageNumber);
-    const keepFields=fields.filter(dt=>dt.page!=pageNumber);
+    console.log("Remove page number", pageNumber);
+    const keepFields = fields.filter((dt) => dt.page != pageNumber);
     setFields(keepFields);
-    setTotalPage(totalPage-1);
-    console.log('after removal',fields);
-  }
+    setTotalPage(totalPage - 1);
+    console.log("after removal", fields);
+  };
 
-
-
-  const removeFieldItem=(index)=>{
-    console.log('remove index number',index);
+  //Single field removal functionality
+  const removeFieldItem = (index) => {
+    console.log("remove index number", index);
     let oldFields = [...fields];
     oldFields.splice(index, 1);
     setFields(oldFields);
-  }
-
-
+  };
 
   //Open Modal and Passing Current (clicked) Field object
   const handleModal = (allInfo) => {
@@ -82,8 +82,6 @@ function Body() {
     setModalData(allInfo);
     setShow(true);
   };
-
-
 
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
@@ -106,14 +104,12 @@ function Body() {
     }
 
     setFields(oldFields);
-    console.log('all fields',fields);
+    console.log("all fields", fields);
   };
-
-
 
   //Showing All Fields from fields Array
   const showFields = () => {
-    let i=1;//Page counter
+    let i = 1; //Page counter
     return fields.map((dt, index) => {
       return (
         <>
@@ -123,30 +119,30 @@ function Body() {
             addInputField={addInputField}
             removeFieldItem={removeFieldItem}
           />
-          {dt.type === "button" &&  totalPage>i   && (           
+          {dt.type === "button" && totalPage > i && (
             <div className="page-devider">
-              <Button variant="dark" onClick={()=>removePage(fields[index+1].page)}>
+              <Button
+                variant="dark"
+                onClick={() => removePage(fields[index + 1].page)}
+              >
                 <FontAwesomeIcon icon={["far", "trash-alt"]} />
               </Button>
               <div className="horizontal-line-area">
-                 <div></div>
+                <div></div>
                 <div>Page {++i}</div>
                 <div></div>
               </div>
             </div>
-            
           )}
         </>
       );
     });
   };
 
-
-
-  console.log('All Fields ====',fields);
+  console.log("All Fields ====", fields);
   return (
     <>
-      <Navigation addNewPage={addNewPage} />
+      <Navigation addNewPage={addNewPage} preview={preview} />
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
@@ -170,6 +166,25 @@ function Body() {
           modalData={modalData}
           addInputField={addInputField}
         />
+
+        <Modal
+          show={previewModal}
+         
+          onHide={() => setPreviewModal(false)}
+          dialogClassName="modal-100w"
+        aria-labelledby="example-custom-modal-styling-title"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Modal</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="preview-body">
+            <Container>
+              <div className="col-lg-8 mx-auto poreview-form-holder">
+                <h1>Hello container</h1>
+              </div>
+            </Container>         
+          </Modal.Body>
+        </Modal>
       </Container>
     </>
   );
