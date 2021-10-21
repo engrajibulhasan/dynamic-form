@@ -54,31 +54,8 @@ function Body() {
     //Fields state updating with new data
     setFields(oldFields);
    
-    
-
-    // if(!prevFieldIndex && !prevFieldIndex){
-    //     setFields(fields.unshift({page:1,type:newFieldType,placeholder:'Add placeholder'}));
-    //     console.log(fields);
-    // }
   };
 
-  // const showFields = fields.length === 1 ? (
-  //   <>
-  //     <Row className="single-input-area mb-3">
-  //       <EditActionButtons  allInfo={{currentPage:fields[0].page,prevFieldType:null,prevIndex:null}} addInputField={addInputField}/>
-  //     </Row>
-  //     <EditPageSubmitButton />
-  //   </>
-  // ):(
-  //   fields.map((dt,index)=>{
-  //       return (
-  //           <Row className="single-input-area mb-3">
-  //               <EditActionButtons  allInfo={{currentPage:dt.page,prevFieldType:dt.type,prevIndex:index-1}} addInputField={addInputField}/>
-  //               <EditInputFields allInfo={dt}/>
-  //           </Row>
-  //       )
-  //   })
-  // );
 
   const showFields = () => {
     //console.log('Total fields length',fields.length);
