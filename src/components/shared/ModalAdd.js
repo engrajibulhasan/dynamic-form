@@ -14,8 +14,8 @@ function ModalAdd(props) {
 
   //After clicking on input field type
   const handleButtonType = (newFieldType) => {
-    console.log(newFieldType);
-    setRigthContent(<LogicalDemoContent allInfo={{...modalData,newFieldType:newFieldType}} addInputField={addInputField}/>);
+    console.log('modal field type',{...modalData,newFieldType:newFieldType});
+    setRigthContent(<LogicalDemoContent newFieldData={{...modalData,newFieldType:newFieldType}} addInputField={addInputField}/>);
   };
 
   //Initial Data

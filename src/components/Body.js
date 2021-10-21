@@ -15,11 +15,7 @@ function Body() {
 
   const [formName, setFormName] = useState("Form Title");
   const [fields, setFields] = useState([
-    {
-      page: 1,
-      type: "text",
-      placeholder: "First Name",
-    },
+    
     {
       page: 1,
       type: "button",
@@ -28,33 +24,36 @@ function Body() {
   ]);
 
 
-  const handleModal=(currentPage,prevIndex,prevFieldType)=>{
-    setModalData({currentPage:currentPage,prevIndex:prevIndex,prevFieldType:prevFieldType})
+  const handleModal=(allInfo)=>{
+    console.log('inside handle modal',allInfo);
+    setModalData(allInfo)
     setShow(true);
   }
 
-  const addInputField = (
-    currentPage,
-    prevFieldIndex,
-    prevFieldType,
-    newFieldType
-  ) => {
+  const addInputField = (newFieldData) => {
+    
     //Modal Close
     setShow(false);
 
-    console.log('££££££££££ field detail',currentPage, prevFieldIndex, prevFieldType, newFieldType);
+    const {page,type,index,newFieldType}=newFieldData;    
     let oldFields = [...fields];
-    console.log("old fields:", oldFields);
+    //New Field Object
     const newFieldObj = {
-      page: currentPage,
+      page: page,
       type: newFieldType,
       placeholder: "Add placeholder here",
     };
-    console.log("New Fields", newFieldObj);
-    const newField = oldFields.unshift(newFieldObj);
-    console.log("brand new field", oldFields);
+    
+    
+    if(type==='button'){
+      let newField = oldFields.splice(index,0,newFieldObj);
+    }else{
+      let newField = oldFields.splice(index+1,0,newFieldObj);
+    }
+
+    //Fields state updating with new data
     setFields(oldFields);
-    console.log(fields);
+   
     
 
     // if(!prevFieldIndex && !prevFieldIndex){
@@ -82,45 +81,34 @@ function Body() {
   // );
 
   const showFields = () => {
-    let returnData = "";
-
-    return fields.length === 1 ? (
-      <div>
-        <Row className="single-input-area mb-3">
-          <EditActionButtons
-            allInfo={{
-              currentPage: fields[0].page,
-              prevFieldType: null,
-              prevIndex: null,
-            }}
-            handleModal={handleModal}
-            addInputField={addInputField}
-          />
-        </Row>
-        <EditPageSubmitButton />
-      </div>
-    ) : (
-      fields.map((dt, index) => {
+    //console.log('Total fields length',fields.length);
+      return fields.map((dt, index) => {
+        //console.log('new object',{...dt,prevIndex:index});
         return (
-          dt.type==='button'?(
-            <EditInputFields allInfo={dt} />
-          ):(
+        
+          <>
             <Row className="single-input-area mb-3">
-            <EditActionButtons
-              allInfo={{
-                currentPage: dt.page,
-                prevFieldType: dt.type,
-                prevIndex: index - 1,
-              }}
-              handleModal={handleModal}
-              addInputField={addInputField}
-            />
-            <EditInputFields allInfo={dt} />
-          </Row>
-          )
+              {/* <EditActionButtons
+                allInfo={{
+                  currentPage: dt.page,
+                  prevFieldType: dt.type,
+                  prevIndex: index,
+                }}
+                handleModal={handleModal}
+                addInputField={addInputField}
+              /> */}
+
+              <EditInputFields 
+                allInfo={{...dt,index:index}} 
+                handleModal={handleModal}
+                addInputField={addInputField}
+              />
+            </Row>
+            </>
+          
         );
       })
-    );
+    
   };
 
   //showFields();
