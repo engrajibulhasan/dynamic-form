@@ -24,6 +24,7 @@
 .action-buttons{
     display: flex;
     justify-content:flex-end;
+    height: 36px;
 
 }
 .action-buttons button {
