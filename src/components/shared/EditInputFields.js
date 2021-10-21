@@ -5,12 +5,12 @@ import EditPageSubmitButton from './EditPageSubmitButton';
 
 function EditInputFields({allInfo,handleModal,addInputField}) {
     const {page,type,placeholder,index}=allInfo;
-    console.log("EDitIF,",allInfo);
+   
     const filedFilter=()=>{
         if(type==='textarea'){
             console.log('text atrea:',allInfo);
             return (
-                <>
+                <Row className="single-input-area mb-3">
                     <EditActionButtons
                         allInfo={allInfo}
                         handleModal={handleModal}
@@ -19,7 +19,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                     <div className="col-lg-10">
                     <Form.Control as="textarea" rows={3}  placeholder={placeholder}/>
                     </div>
-                </>
+                </Row>
             );
         }
         else if(type==='button'){
@@ -37,7 +37,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                 )
         }else{
             return (
-                <>
+                <Row className="single-input-area mb-3">
                     <EditActionButtons
                         allInfo={allInfo}
                         handleModal={handleModal}
@@ -46,7 +46,7 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
                     <div className="col-lg-10">
                         <Form.Control type={type} placeholder={placeholder} />
                     </div>
-                </>
+                </Row>
             )
         }
     }

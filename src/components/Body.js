@@ -12,7 +12,6 @@ function Body() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [modalData,setModalData]=useState({currentPage:'',prevIndex:'',prevFieldType:'',newFieldType:''});
-
   const [formName, setFormName] = useState("Form Title");
   const [fields, setFields] = useState([
     
@@ -23,7 +22,7 @@ function Body() {
     },
   ]);
 
-
+  //Open Modal and Passing Current (clicked) Field object
   const handleModal=(allInfo)=>{
     console.log('inside handle modal',allInfo);
     setModalData(allInfo)
@@ -31,7 +30,6 @@ function Body() {
   }
 
   const addInputField = (newFieldData) => {
-    
     //Modal Close
     setShow(false);
 
@@ -44,7 +42,6 @@ function Body() {
       placeholder: "Add placeholder here",
     };
     
-    
     if(type==='button'){
       let newField = oldFields.splice(index,0,newFieldObj);
     }else{
@@ -53,46 +50,25 @@ function Body() {
 
     //Fields state updating with new data
     setFields(oldFields);
-   
   };
 
-
+  //Showing All Fields
   const showFields = () => {
-    //console.log('Total fields length',fields.length);
       return fields.map((dt, index) => {
-        //console.log('new object',{...dt,prevIndex:index});
         return (
-        
-          <>
-            <Row className="single-input-area mb-3">
-              {/* <EditActionButtons
-                allInfo={{
-                  currentPage: dt.page,
-                  prevFieldType: dt.type,
-                  prevIndex: index,
-                }}
-                handleModal={handleModal}
-                addInputField={addInputField}
-              /> */}
-
               <EditInputFields 
                 allInfo={{...dt,index:index}} 
                 handleModal={handleModal}
                 addInputField={addInputField}
               />
-            </Row>
-            </>
-          
         );
       })
     
   };
 
-  //showFields();
 
   return (
     <Container>
-
       <div className="col-lg-8 mx-auto">
         {/* Form Title */}
         <div className="form-group ">
@@ -104,7 +80,6 @@ function Body() {
             placeholder="Form Title"
           />
         </div>
-
         {showFields()}
       </div>
 
