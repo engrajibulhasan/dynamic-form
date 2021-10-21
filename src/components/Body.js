@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container, Modal, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
@@ -34,13 +34,19 @@ function Body() {
   // Preview Modal
   const [fullscreen, setFullscreen] = useState(true);
   const [previewModal, setPreviewModal] = useState(false);
+  const [previewFields,setPreviewFields]=useState([])
   // Preview Modal ends
+
+  useEffect(()=>{
+    // const initialFormPreview=fields.filter(dt=>dt.page===1);
+    // setPreviewFields(initialFormPreview);
+    console.log('UseEffectHitted');
+  },[])
 
   //preview
   const preview = () => {
     setFullscreen('lg-down');
     setPreviewModal(true);
-    console.log(previewModal);
   };
 
   // Add New Page functionality
@@ -78,11 +84,11 @@ function Body() {
 
   //Open Modal and Passing Current (clicked) Field object
   const handleModal = (allInfo) => {
-    //console.log("inside handle modal", allInfo);
     setModalData(allInfo);
     setShow(true);
   };
 
+  //Update Placeholder and Button Name
   const updatePlaceholder=(placeholder,index)=>{
     console.log('changing field',placeholder,index);
     let oldFields = [...fields];
@@ -188,7 +194,10 @@ function Body() {
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-                <h1>Hello container</h1>
+                <h1>Form Headline</h1>
+                <form>
+                  
+                </form>
               </div>
             </Container>         
           </Modal.Body>
