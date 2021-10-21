@@ -39,3 +39,41 @@
 .action-buttons button:hover{
     background-color:#dfdfdf;
 }
+
+.page-devider {
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    margin-left: -15px;
+}
+
+.page-devider Button{
+    opacity:0;
+    transition:500ms;
+}
+.page-devider:hover Button{
+    opacity: 1;
+}
+
+.page-devider .horizontal-line-area{
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.page-devider .horizontal-line-area div:nth-child(1),
+.page-devider .horizontal-line-area div:nth-child(3){
+    width:40%;
+    height:1px ;
+    background-color: rgba(0,0,0,0.5);
+}
+.page-devider .horizontal-line-area div:nth-child(2){
+    width:20%;
+    background-color: #fff;
+    text-align: center;
+    border:1px solid rgba(0,0,0,0.5);
+    padding: 5px;
+    font-size: 0.75em;
+    
+}

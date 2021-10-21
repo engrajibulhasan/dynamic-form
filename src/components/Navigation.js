@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './Navigation.css';
-function Navigation() {
+function Navigation({addNewPage}) {
     return (
         <header className="header-area container-fluid">
             <div className="header-left">
@@ -15,7 +15,7 @@ function Navigation() {
                         <span>Insert</span>
                     </li>
 
-                    <li>
+                    <li onClick={addNewPage}>
                         <FontAwesomeIcon icon={["far", "file-alt"]} />
                         <span>New Page</span>
                     </li>

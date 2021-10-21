@@ -8,7 +8,6 @@ function EditInputFields({allInfo,handleModal,addInputField}) {
    
     const filedFilter=()=>{
         if(type==='textarea'){
-            console.log('text atrea:',allInfo);
             return (
                 <Row className="single-input-area mb-3">
                     <EditActionButtons

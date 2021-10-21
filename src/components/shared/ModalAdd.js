@@ -6,15 +6,12 @@ import LogicalDemoContent from "./LogicalDemoContent";
 
 function ModalAdd(props) {
   const{show,onHide,handleClose,addInputField,modalData}=props;
-  console.log('Current field information in ModalAdd.js:',modalData);
   const {currentPage,prevIndex,prevFieldType}=modalData;
-  
   const [rigthContent, setRigthContent] = useState();
   
 
   //After clicking on input field type
   const handleButtonType = (newFieldType) => {
-    console.log('modal field type',{...modalData,newFieldType:newFieldType});
     setRigthContent(<LogicalDemoContent newFieldData={{...modalData,newFieldType:newFieldType}} addInputField={addInputField}/>);
   };
 

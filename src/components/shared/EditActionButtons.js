@@ -4,7 +4,6 @@ import { Button, Row } from 'react-bootstrap'
 
 function EditActionButtons({allInfo,addInputField,handleModal}) {
     const {currentPage,prevFieldType,prevIndex}=allInfo;
-    console.log('Action button',allInfo );
     return (
         <div className="col-lg-2 action-buttons">
             <Button variant="light"><FontAwesomeIcon icon={["far", "trash-alt"]} /></Button>

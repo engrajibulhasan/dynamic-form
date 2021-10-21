@@ -9,7 +9,6 @@ library.add(fab, fas, far);
 function App() {
   return (
     <>
-      <Navigation/>
       <Body/>
     </>
   );
