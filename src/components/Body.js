@@ -83,6 +83,13 @@ function Body() {
     setShow(true);
   };
 
+  const updatePlaceholder=(placeholder,index)=>{
+    console.log('changing field',placeholder,index);
+    let oldFields = [...fields];
+    oldFields[index].placeholder=placeholder;
+    setFields(oldFields);
+  }
+
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
     setShow(false);
@@ -118,6 +125,7 @@ function Body() {
             handleModal={handleModal}
             addInputField={addInputField}
             removeFieldItem={removeFieldItem}
+            updatePlaceholder={updatePlaceholder}
           />
           {dt.type === "button" && totalPage > i && (
             <div className="page-devider">
