@@ -29,29 +29,45 @@ function Body() {
   });
   //End Modal related code
 
-  // Preview Modal
-  const [fullscreen, setFullscreen] = useState(true);
+  // Preview Modal State
   const [previewModal, setPreviewModal] = useState(false);
-  const [previewFields,setPreviewFields]=useState([])
+  const [previewFields, setPreviewFields] = useState([]);
   // Preview Modal ends
 
-  useEffect(()=>{
-    // const initialFormPreview=fields.filter(dt=>dt.page===1);
-    // setPreviewFields(initialFormPreview);
-    console.log('UseEffectHitted');
-  },[])
+  //preview Modal
+  //Single Step Data
+  const [previewData, setPreviewData] = useState([]);
 
-  //preview
   const preview = () => {
-    setFullscreen('lg-down');
-    setPreviewModal(true);
+    setPreviewModal(true); //Modal
+
+    let filteredData = fields.filter((dt) => dt.page === 1); //Filter
+    //console.log('Before state update',filteredData);
+    setPreviewData(filteredData && filteredData); //State Update
+    console.log("Initial Preview", previewData && previewData); //State
+  };
+
+  //For Next and Prev button
+  const handleNextPreviewSteps = (step) => {
+    console.log("previous step", step);
+    let nextPage = fields.find((dt) => dt.page > step); //Next Page
+    console.log("Next page", nextPage);
+    if (nextPage) {
+      console.log("Smart filter:", nextPage.page);
+      let filteredData = fields.filter((dt) => dt.page === nextPage.page);
+      setPreviewData(filteredData);
+      console.log("Button", previewData);
+    } else {
+      setPreviewData("");
+    }
   };
 
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
   const addNewPage = () => {
     let oldFields = [...fields];
-    const currentPage = totalPage + 1;
+    //Generating New Page Number
+    const currentPage = fields[fields.length - 1].page + 1;
     const newPageBtn = {
       page: currentPage,
       type: "button",
@@ -87,12 +103,12 @@ function Body() {
   };
 
   //Update Placeholder and Button Name
-  const updatePlaceholder=(placeholder,index)=>{
-    console.log('changing field',placeholder,index);
+  const updatePlaceholder = (placeholder, index) => {
+    console.log("changing field", placeholder, index);
     let oldFields = [...fields];
-    oldFields[index].placeholder=placeholder;
+    oldFields[index].placeholder = placeholder;
     setFields(oldFields);
-  }
+  };
 
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
@@ -151,7 +167,6 @@ function Body() {
     });
   };
 
-  console.log("All Fields ====", fields);
   return (
     <>
       <Navigation addNewPage={addNewPage} preview={preview} />
@@ -179,25 +194,48 @@ function Body() {
           addInputField={addInputField}
         />
 
+        {/* Preview Modal */}
         <Modal
           show={previewModal}
-         
           onHide={() => setPreviewModal(false)}
           dialogClassName="modal-100w"
-        aria-labelledby="example-custom-modal-styling-title"
+          aria-labelledby="example-custom-modal-styling-title"
         >
           <Modal.Header closeButton>
-            <Modal.Title>Modal</Modal.Title>
+            <Modal.Title>Cover Image goes here</Modal.Title>
           </Modal.Header>
+
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
                 <h1>Form Headline</h1>
                 <form>
-                  
+                  <ul>
+                    {previewData ? (
+                      previewData.map((data, index) => {
+                        if (data.type === "button") {
+                          return (
+                            <li>
+                              <Button
+                                onClick={() =>
+                                  handleNextPreviewSteps(data.page)
+                                }
+                              >
+                                {data.placeholder}
+                              </Button>
+                            </li>
+                          );
+                        } else {
+                          return <li>{data.placeholder}</li>;
+                        }
+                      })
+                    ) : (
+                      <h1>Thank You</h1>
+                    )}
+                  </ul>
                 </form>
               </div>
-            </Container>         
+            </Container>
           </Modal.Body>
         </Modal>
       </Container>
