@@ -3,9 +3,7 @@ import { Button, Container, Modal, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
 import Navigation from "./Navigation";
-import EditActionButtons from "./shared/EditActionButtons";
 import EditInputFields from "./shared/EditInputFields";
-import EditPageSubmitButton from "./shared/EditPageSubmitButton";
 import ModalAdd from "./shared/ModalAdd";
 
 function Body() {
