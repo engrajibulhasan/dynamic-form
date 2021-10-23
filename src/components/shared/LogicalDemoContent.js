@@ -6,6 +6,7 @@ import "./LogicalDemoContent.css";
 function LogicalDemoContent({ newFieldData, addInputField }) {
   let { newFieldType } = newFieldData;
   let headline, detail, bottomDetail;
+  
   if (newFieldType === "text") {
     headline = "Short Answer";
     detail =

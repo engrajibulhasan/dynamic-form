@@ -6,7 +6,6 @@ import LogicalDemoContent from "./LogicalDemoContent";
 
 function ModalAdd(props) {
   const { show, onHide, handleClose, addInputField, modalData } = props;
-  const { currentPage, prevIndex, prevFieldType } = modalData;
   const [rigthContent, setRigthContent] = useState();
 
   //After clicking on input field type

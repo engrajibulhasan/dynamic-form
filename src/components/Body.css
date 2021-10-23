@@ -21,13 +21,16 @@ h6 {
   border: none;
   outline: none;
 }
-
-.single-input-area {
+.single-input-area .action-buttons {
+  transition: 500ms;
+  opacity: 0;
+}
+.single-input-area:hover .action-buttons{
+  opacity: 1;
 }
 .input-area > div {
   padding: 5px;
 }
-
 .action-buttons {
   display: flex;
   justify-content: flex-end;

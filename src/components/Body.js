@@ -16,8 +16,10 @@ import Thankyou from "./shared/Thankyou";
 import CkEditor from "./shared/CkEditor";
 import { v4 as uuidv4 } from "uuid";
 import UploadModal from "./shared/UploadModal";
-import axios from 'axios';
+import axios from "axios";
 import ImagePreview from "./shared/ImagePreview";
+
+
 
 function Body() {
   //console.log(uuidv4());
@@ -32,34 +34,43 @@ function Body() {
     },
   ]);
 
-  // Modal Photo Upload
-  const [cover,setCover]=useState('');
-  const [logo,setLogo]=useState('');
-  const [uploadStatus,setUploadStatus]=useState(false);
-  const [uploadType,setUploadType]=useState('');
-  const [uploadShow,setUploadShow]=useState(false);
+
+
+  // Modal Photo Upload states
+  const [cover, setCover] = useState("");
+  const [logo, setLogo] = useState("");
+  const [uploadStatus, setUploadStatus] = useState(false);
+  const [uploadType, setUploadType] = useState("");
+  const [uploadShow, setUploadShow] = useState(false);
   const handleUploadClose = () => setUploadShow(false);
-  const handleUploadOpen=(type)=>{
+  const handleUploadOpen = (type) => {
     setUploadShow(true);
-    console.log('Modal',type);
+    console.log("Modal", type);
     setUploadType(type);
-  }
-  console.log('the logo is:',logo);
-  console.log('the cover is:',cover);
-  const uploadImage=(e,type)=> {
+  };
+
+
+
+  // Image Upload function -- imgbb api
+  const uploadImage = (e, type) => {
     setUploadStatus(true);
-    const dt=new FormData();
-    console.log('image',e.target.files[0],e.target.files[0].name);
-    dt.append('image',e.target.files[0],e.target.files[0].name);
-    axios.post(`https://api.imgbb.com/1/upload?expiration=600&key=b6726303b7e16dab66939c35da72d0d4`,dt)
-    .then(res=>{
-      if(res){
-        setUploadShow(false);
-        type==='logo'?setLogo(res.data.data.display_url):setCover(res.data.data.display_url);
-        setUploadStatus(false);
-      }
-    })
-  }
+    const dt = new FormData();
+    dt.append("image", e.target.files[0], e.target.files[0].name);
+    axios
+      .post(
+        `https://api.imgbb.com/1/upload?expiration=600&key=b6726303b7e16dab66939c35da72d0d4`,
+        dt
+      )
+      .then((res) => {
+        if (res) {
+          setUploadShow(false);
+          type === "logo"
+            ? setLogo(res.data.data.display_url)
+            : setCover(res.data.data.display_url);
+          setUploadStatus(false);
+        }
+      });
+  };
 
 
 
@@ -83,6 +94,8 @@ function Body() {
   //Set preview single steps fields
   const [previewFieldData, setPreviewFieldData] = useState();
 
+
+
   //preview Modal
   //Single Step Data
   const [previewData, setPreviewData] = useState([]);
@@ -105,13 +118,12 @@ function Body() {
     setPreviewData(filteredData && filteredData); //State Update
   };
 
+
+
   //For Next and Prev button
   const handleNextPreviewSteps = (step) => {
-    console.log("previous step", step);
     let nextPage = fields.find((dt) => dt.page > step); //Next Page
-    console.log("Next page", nextPage);
     if (nextPage) {
-      console.log("Smart filter:", nextPage.page);
       let filteredData = fields.filter((dt) => dt.page === nextPage.page);
       setPreviewData(filteredData);
       console.log("Button", previewData);
@@ -119,6 +131,8 @@ function Body() {
       setPreviewData("");
     }
   };
+
+
 
   //Haandle preview fields data [[[Final Data of preview]]]
   const handlePreviewField = (e, index, page) => {
@@ -130,6 +144,8 @@ function Body() {
     console.log("##### Form Final Value :: ", oldData);
   };
 
+
+
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
   const addNewPage = () => {
@@ -137,25 +153,29 @@ function Body() {
     //Generating New Page Number
     const currentPage = fields[fields.length - 1].page + 1;
     const newPageBtn = {
+      id: uuidv4(),
       page: currentPage,
       type: "button",
       placeholder: "Next Page",
-      value: "",
+      name: uuidv4(),
     };
     oldFields.push(newPageBtn);
     setFields(oldFields);
     setTotalPage(currentPage);
   };
 
+
+
   // Page Remove functionality
   const removePage = (pageNumber) => {
     //setTotalPage(totalPage-1);
-    console.log("Remove page number", pageNumber);
     const keepFields = fields.filter((dt) => dt.page != pageNumber);
     setFields(keepFields);
     setTotalPage(totalPage - 1);
     console.log("after removal", fields);
   };
+
+
 
   //Single field removal functionality
   const removeFieldItem = (index) => {
@@ -165,11 +185,15 @@ function Body() {
     setFields(oldFields);
   };
 
+
+
   //Open Modal and Passing Current (clicked) Field object
   const handleModal = (allInfo) => {
     setModalData(allInfo);
     setShow(true);
   };
+
+
 
   //Update Placeholder and Button Name
   const updatePlaceholder = (placeholder, index) => {
@@ -178,6 +202,8 @@ function Body() {
     oldFields[index].placeholder = placeholder;
     setFields(oldFields);
   };
+
+
 
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
@@ -203,6 +229,8 @@ function Body() {
     console.log("all fields", oldFields);
   };
 
+
+
   //Showing All Fields from fields Array
   const showFields = () => {
     let i = 1; //Page counter
@@ -224,6 +252,7 @@ function Body() {
               >
                 <FontAwesomeIcon icon={["far", "trash-alt"]} />
               </Button>
+              {/* Page devider */}
               <div className="horizontal-line-area">
                 <div></div>
                 <div>Page {++i}</div>
@@ -236,15 +265,27 @@ function Body() {
     });
   };
 
+
+
   return (
     <>
-      <Navigation addNewPage={addNewPage} preview={preview} handleUploadOpen={handleUploadOpen}/>
-      <ImagePreview cover={cover} logo={logo} handleUploadOpen={handleUploadOpen}/>
+      <Navigation
+        addNewPage={addNewPage}
+        preview={preview}
+        handleUploadOpen={handleUploadOpen}
+      />
+      <ImagePreview
+        cover={cover}
+        logo={logo}
+        handleUploadOpen={handleUploadOpen}
+      />
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
 
-          <CkEditor setFormName={setFormName}></CkEditor>
+          <div className="col-lg-10 offset-md-2">
+            <CkEditor setFormName={setFormName}></CkEditor>
+          </div>
 
           {showFields()}
         </div>
@@ -257,7 +298,7 @@ function Body() {
           modalData={modalData}
           addInputField={addInputField}
         />
-        
+
         <UploadModal
           uploadShow={uploadShow}
           onHide={() => setUploadShow(false)}
@@ -274,8 +315,22 @@ function Body() {
           dialogClassName="modal-100w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-      
-          <ImagePreview cover={cover} logo={logo} handleUploadOpen={handleUploadOpen} setPreviewModal={setPreviewModal} prevModal/>
+          {!cover && (
+            <Modal.Header>
+              <h2>Preview</h2>{" "}
+              <Button onClick={() => setPreviewModal(false)}>
+                <FontAwesomeIcon icon={["fas", "edit"]} /> Back to Edit
+              </Button>
+            </Modal.Header>
+          )}
+
+          <ImagePreview
+            cover={cover}
+            logo={logo}
+            handleUploadOpen={handleUploadOpen}
+            setPreviewModal={setPreviewModal}
+            prevModal
+          />
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
@@ -315,7 +370,7 @@ function Body() {
                                 type={dt.type}
                                 rows={3}
                                 placeholder={dt.placeholder}
-                                controlId={dt.id}
+                                id={dt.id}
                                 onBlur={(e) =>
                                   handlePreviewField(e, index, dt.page)
                                 }
@@ -340,7 +395,7 @@ function Body() {
                               </InputGroup.Text>
                               <Form.Control
                                 placeholder={dt.placeholder}
-                                controlId={dt.id}
+                                id={dt.id}
                                 name={dt.id}
                                 type={dt.type}
                                 onBlur={(e) =>
