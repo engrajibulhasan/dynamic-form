@@ -1,12 +1,10 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './LogicalDemoContent.css';
+import "./LogicalDemoContent.css";
 
-
-
-function LogicalDemoContent({ newFieldData,addInputField }) {
-  let {newFieldType } = newFieldData;
+function LogicalDemoContent({ newFieldData, addInputField }) {
+  let { newFieldType } = newFieldData;
   let headline, detail, bottomDetail;
   if (newFieldType === "text") {
     headline = "Short Answer";
@@ -37,31 +35,35 @@ function LogicalDemoContent({ newFieldData,addInputField }) {
           <p>{detail}</p>
         </div>
         <div className="block-right">
-        <Button variant="primary" onClick={()=>addInputField(newFieldData)}>
-          Insert <FontAwesomeIcon icon={["fas", "arrow-right"]} />
-        </Button>
+          <Button variant="primary" onClick={() => addInputField(newFieldData)}>
+            Insert <FontAwesomeIcon icon={["fas", "arrow-right"]} />
+          </Button>
         </div>
       </div>
 
       <div className="bottom-content">
-      <h6 className="text-capitalize">{newFieldType} Field Example</h6>
-      
-      
-      {newFieldType === "textarea" ? (
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Control as="textarea" rows={3} disabled placeholder="Placeholder goes here"/>
-          <Form.Text className="text-muted">{bottomDetail}</Form.Text>
-        </Form.Group>
-      ) : (
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Control
-            type={newFieldType}
-            placeholder="Placeholder goes here"
-            disabled
-          />
-          <Form.Text className="text-muted">{bottomDetail}</Form.Text>
-        </Form.Group>
-      )}
+        <h6 className="text-capitalize">{newFieldType} Field Example</h6>
+
+        {newFieldType === "textarea" ? (
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Control
+              as="textarea"
+              rows={3}
+              disabled
+              placeholder="Placeholder goes here"
+            />
+            <Form.Text className="text-muted">{bottomDetail}</Form.Text>
+          </Form.Group>
+        ) : (
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Control
+              type={newFieldType}
+              placeholder="Placeholder goes here"
+              disabled
+            />
+            <Form.Text className="text-muted">{bottomDetail}</Form.Text>
+          </Form.Group>
+        )}
       </div>
     </div>
   );

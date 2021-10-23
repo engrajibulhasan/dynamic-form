@@ -40,15 +40,17 @@ function EditInputFields({
               allInfo={allInfo}
               handleModal={handleModal}
               addInputField={addInputField}
-
               isButton
             />
           </Row>
-          <EditPageSubmitButton btnInfo={allInfo} updatePlaceholder={updatePlaceholder}/>
+          <EditPageSubmitButton
+            btnInfo={allInfo}
+            updatePlaceholder={updatePlaceholder}
+          />
         </>
       );
     } else {
-      let newType='text';
+      let newType = "text";
       return (
         <Row className="single-input-area mb-3">
           <EditActionButtons

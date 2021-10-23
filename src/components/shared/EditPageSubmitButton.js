@@ -6,7 +6,7 @@ import "tippy.js/animations/shift-toward.css";
 import "tippy.js/dist/tippy.css"; // optional
 import "tippy.js/themes/light.css";
 
-function EditPageSubmitButton({ btnInfo,updatePlaceholder }) {
+function EditPageSubmitButton({ btnInfo, updatePlaceholder }) {
   return (
     <Row className="single-input-area mb-3">
       <div className="col-lg-2 action-buttons">
@@ -19,10 +19,12 @@ function EditPageSubmitButton({ btnInfo,updatePlaceholder }) {
           content={
             <div className="button-input-field">
               <Form.Control
-              type="btnInfo"
-              value={btnInfo.placeholder}
-              onChange={(e) => updatePlaceholder(e.target.value, btnInfo.index)}
-            />
+                type="btnInfo"
+                value={btnInfo.placeholder}
+                onChange={(e) =>
+                  updatePlaceholder(e.target.value, btnInfo.index)
+                }
+              />
             </div>
           }
           interactive={true}
@@ -34,7 +36,7 @@ function EditPageSubmitButton({ btnInfo,updatePlaceholder }) {
         </Tippy>
       </div>
       <div className="col-lg-10">
-      <Tippy
+        <Tippy
           trigger={"click"}
           hideOnClick={true}
           animation={"shift-toward"}
@@ -43,19 +45,21 @@ function EditPageSubmitButton({ btnInfo,updatePlaceholder }) {
           content={
             <div className="button-input-field">
               <Form.Control
-              type="btnInfo"
-              value={btnInfo.placeholder}
-              onChange={(e) => updatePlaceholder(e.target.value, btnInfo.index)}
-            />
+                type="btnInfo"
+                value={btnInfo.placeholder}
+                onChange={(e) =>
+                  updatePlaceholder(e.target.value, btnInfo.index)
+                }
+              />
             </div>
           }
           interactive={true}
           animation={"shift-toward"}
         >
-        <Button variant="dark">
-          <span>{btnInfo.placeholder} </span>{" "}
-          <FontAwesomeIcon icon={["fas", "angle-right"]} />
-        </Button>
+          <Button variant="dark">
+            <span>{btnInfo.placeholder} </span>{" "}
+            <FontAwesomeIcon icon={["fas", "angle-right"]} />
+          </Button>
         </Tippy>
       </div>
     </Row>

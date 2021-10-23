@@ -5,14 +5,18 @@ import "./ModalAdd.css";
 import LogicalDemoContent from "./LogicalDemoContent";
 
 function ModalAdd(props) {
-  const{show,onHide,handleClose,addInputField,modalData}=props;
-  const {currentPage,prevIndex,prevFieldType}=modalData;
+  const { show, onHide, handleClose, addInputField, modalData } = props;
+  const { currentPage, prevIndex, prevFieldType } = modalData;
   const [rigthContent, setRigthContent] = useState();
-  
 
   //After clicking on input field type
   const handleButtonType = (newFieldType) => {
-    setRigthContent(<LogicalDemoContent newFieldData={{...modalData,newFieldType:newFieldType}} addInputField={addInputField}/>);
+    setRigthContent(
+      <LogicalDemoContent
+        newFieldData={{ ...modalData, newFieldType: newFieldType }}
+        addInputField={addInputField}
+      />
+    );
   };
 
   //Initial Data
@@ -31,8 +35,6 @@ function ModalAdd(props) {
 
   return (
     <>
-     
-
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Modal.Body className="modal-body-area">
           <Row>

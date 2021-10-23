@@ -14,20 +14,18 @@ import EditInputFields from "./shared/EditInputFields";
 import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
 import CkEditor from "./shared/CkEditor";
-import { v4 as uuidv4 } from 'uuid';
-
+import { v4 as uuidv4 } from "uuid";
 
 function Body() {
- 
   //console.log(uuidv4());
-  const [formName, setFormName] = useState('');
+  const [formName, setFormName] = useState("Add Title");
   const [fields, setFields] = useState([
     {
-      id:uuidv4(),
+      id: uuidv4(),
       page: 1,
       type: "button",
       placeholder: "Button Page 1",
-      name:uuidv4()
+      name: uuidv4(),
     },
   ]);
 
@@ -49,30 +47,30 @@ function Body() {
   // Preview Modal ends
 
   //Set preview single steps fields
-  const [previewFieldData,setPreviewFieldData]=useState();
+  const [previewFieldData, setPreviewFieldData] = useState();
 
   //preview Modal
   //Single Step Data
   const [previewData, setPreviewData] = useState([]);
   const preview = () => {
     setPreviewModal(true); //Modal
-    let i=-1;
-    let currentPage=1;
-    const cloneAndModifyFields=fields.filter(dt=>dt.type!='button').map((dt,index)=>{
-        if(dt.page>currentPage){
-          currentPage=dt.page;
-          i=-1;
+    let i = -1;
+    let currentPage = 1;
+    const cloneAndModifyFields = fields
+      .filter((dt) => dt.type != "button")
+      .map((dt, index) => {
+        if (dt.page > currentPage) {
+          currentPage = dt.page;
+          i = -1;
         }
         i++;
-        return {id:''+dt.page+i,placeholder:dt.placeholder,value:''};
-    })
+        return { id: "" + dt.page + i, placeholder: dt.placeholder, value: "" };
+      });
     setPreviewFieldData(cloneAndModifyFields);
     const filteredData = fields.filter((dt) => dt.page === 1); //Filter
     setPreviewData(filteredData && filteredData); //State Update
   };
 
-
-  
   //For Next and Prev button
   const handleNextPreviewSteps = (step) => {
     console.log("previous step", step);
@@ -88,19 +86,15 @@ function Body() {
     }
   };
 
-  
   //Haandle preview fields data [[[Final Data of preview]]]
-  const handlePreviewField = (e,index,page) => {  
-    const id=''+page+index;
-    let oldData=[...previewFieldData];
-    const objIndex=oldData.findIndex(dt=>dt.id===id);
-    oldData[objIndex].value=e.target.value;
+  const handlePreviewField = (e, index, page) => {
+    const id = "" + page + index;
+    let oldData = [...previewFieldData];
+    const objIndex = oldData.findIndex((dt) => dt.id === id);
+    oldData[objIndex].value = e.target.value;
     setPreviewFieldData(oldData);
-    console.log('##### Form Final Value :: ',oldData)
+    console.log("##### Form Final Value :: ", oldData);
   };
-
-
-
 
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
@@ -159,17 +153,17 @@ function Body() {
 
     //New Field Object
     let newFieldObj = {
-      id:uuidv4(),
+      id: uuidv4(),
       page: page,
       type: newFieldType,
       placeholder: "Add placeholder here",
-      name:uuidv4(),
+      name: uuidv4(),
     };
 
     if (type === "button") {
       oldFields.splice(index, 0, newFieldObj);
     } else {
-      oldFields.splice(index+1, 0, newFieldObj);
+      oldFields.splice(index + 1, 0, newFieldObj);
     }
     setFields(oldFields);
     console.log("all fields", oldFields);
@@ -182,7 +176,6 @@ function Body() {
       return (
         <div key={dt.id}>
           <EditInputFields
-           
             allInfo={{ ...dt, index: index }}
             handleModal={handleModal}
             addInputField={addInputField}
@@ -212,13 +205,13 @@ function Body() {
   return (
     <>
       <Navigation addNewPage={addNewPage} preview={preview} />
-      
+
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
-         
-            <CkEditor setFormName={setFormName}></CkEditor>
-          
+
+          <CkEditor setFormName={setFormName}></CkEditor>
+
           {showFields()}
         </div>
 
@@ -248,82 +241,81 @@ function Body() {
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-              
-                {previewData && <div dangerouslySetInnerHTML={{__html: formName}} ></div>}
+                {previewData && (
+                  <div
+                    className="preview-form-title"
+                    dangerouslySetInnerHTML={{ __html: formName }}
+                  ></div>
+                )}
                 <form>
-                    {previewData ? (
-                      previewData.map((dt, index) => {
-                        if (dt.type === "button") {
-                          return (
-                            
-                              <Button 
-                                variant="dark"
+                  {previewData ? (
+                    previewData.map((dt, index) => {
+                      if (dt.type === "button") {
+                        return (
+                          <Button
+                            variant="dark"
+                            name={dt.name}
+                            key={dt.id}
+                            onClick={() => handleNextPreviewSteps(dt.page)}
+                          >
+                            {dt.placeholder}
+                          </Button>
+                        );
+                      }
+                      if (dt.type === "textarea") {
+                        return (
+                          <Form.Group className="mb-3" key={dt.id}>
+                            <InputGroup>
+                              <InputGroup.Text>
+                                <FontAwesomeIcon
+                                  icon={["fas", "align-justify"]}
+                                />
+                              </InputGroup.Text>
+                              <Form.Control
+                                as="textarea"
                                 name={dt.name}
-                                key={dt.id}
-                                onClick={() =>
-                                  handleNextPreviewSteps(dt.page)
+                                rows={3}
+                                placeholder={dt.placeholder}
+                                controlId={dt.id}
+                                onBlur={(e) =>
+                                  handlePreviewField(e, index, dt.page)
                                 }
-                              >
-                                {dt.placeholder}
-                              </Button>
-                            
-                          );
-                        }
-                        if (dt.type === "textarea") {
-                          return (
-                            <Form.Group className="mb-3" key={dt.id}>
-                              <InputGroup>
-                                <InputGroup.Text>
+                              />
+                            </InputGroup>
+                          </Form.Group>
+                        );
+                      } else {
+                        return (
+                          <Form.Group className="mb-3" key={dt.id}>
+                            <InputGroup>
+                              <InputGroup.Text>
+                                {dt.type === "text" ? (
                                   <FontAwesomeIcon
-                                    icon={["fas", "align-justify"]}
+                                    icon={["fas", "align-left"]}
                                   />
-                                </InputGroup.Text>
-                                <Form.Control
-                                  as="textarea"
-                                  name={dt.name}
-                                  rows={3}
-                                  placeholder={dt.placeholder}
-                                  controlId={dt.id}
-                                  onBlur={(e) =>
-                                    handlePreviewField(e,index,dt.page)
-                                  }
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          );
-                        } else {
-                          return (
-                            <Form.Group className="mb-3"  key={dt.id}>
-                              <InputGroup>
-                                <InputGroup.Text>
-                                  {dt.type === "text" ? (
-                                    <FontAwesomeIcon
-                                      icon={["fas", "align-left"]}
-                                    />
-                                  ) : dt.type === "number" ? (
-                                    <FontAwesomeIcon icon={["fas", "phone"]} />
-                                  ):(
-                                    <FontAwesomeIcon icon={["fas", "at"]} />
-                                  )
+                                ) : dt.type === "number" ? (
+                                  <FontAwesomeIcon icon={["fas", "phone"]} />
+                                ) : (
+                                  <FontAwesomeIcon icon={["fas", "at"]} />
+                                )}
+                              </InputGroup.Text>
+                              <Form.Control
+                                placeholder={dt.placeholder}
+                                controlId={dt.id}
+                                name={dt.id}
+                                onBlur={(e) =>
+                                  handlePreviewField(e, index, dt.page)
                                 }
-                                </InputGroup.Text>
-                                <Form.Control
-                                  placeholder={dt.placeholder}
-                                  controlId={dt.id}
-                                  name={dt.id}
-                                  onBlur={(e) =>
-                                    handlePreviewField(e,index,dt.page)
-                                  }
-                                />
-                              </InputGroup>
-                            </Form.Group>
-                          );
-                        }
-                      })
-                    ) : (
-                      <Thankyou />
-                    )}
-                 </form>
+                              />
+                            </InputGroup>
+                          </Form.Group>
+                        );
+                      }
+                    })
+                  ) : (
+                    <Thankyou />
+                  )}
+                </form>
               </div>
             </Container>
           </Modal.Body>
