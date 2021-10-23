@@ -14,16 +14,20 @@ import EditInputFields from "./shared/EditInputFields";
 import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
 import CkEditor from "./shared/CkEditor";
+import { v4 as uuidv4 } from 'uuid';
 
 
 function Body() {
-  //Field Data
-  const [formName, setFormName] = useState("Form Title");
+ 
+  //console.log(uuidv4());
+  const [formName, setFormName] = useState('');
   const [fields, setFields] = useState([
     {
+      id:uuidv4(),
       page: 1,
       type: "button",
       placeholder: "Button Page 1",
+      name:uuidv4()
     },
   ]);
 
@@ -92,7 +96,7 @@ function Body() {
     const objIndex=oldData.findIndex(dt=>dt.id===id);
     oldData[objIndex].value=e.target.value;
     setPreviewFieldData(oldData);
-    console.log('##### Form Final Value :: ')
+    console.log('##### Form Final Value :: ',oldData)
   };
 
 
@@ -149,27 +153,26 @@ function Body() {
 
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
-    setShow(false);
-
+    setShow(false); //modal hiding
     const { page, type, index, newFieldType } = newFieldData;
     let oldFields = [...fields];
 
     //New Field Object
-    const newFieldObj = {
+    let newFieldObj = {
+      id:uuidv4(),
       page: page,
       type: newFieldType,
       placeholder: "Add placeholder here",
-      value: "",
+      name:uuidv4(),
     };
 
     if (type === "button") {
-      let newField = oldFields.splice(index, 0, newFieldObj);
+      oldFields.splice(index, 0, newFieldObj);
     } else {
-      let newField = oldFields.splice(index + 1, 0, newFieldObj);
+      oldFields.splice(index+1, 0, newFieldObj);
     }
-
     setFields(oldFields);
-    console.log("all fields", fields);
+    console.log("all fields", oldFields);
   };
 
   //Showing All Fields from fields Array
@@ -177,8 +180,9 @@ function Body() {
     let i = 1; //Page counter
     return fields.map((dt, index) => {
       return (
-        <>
+        <div key={dt.id}>
           <EditInputFields
+           
             allInfo={{ ...dt, index: index }}
             handleModal={handleModal}
             addInputField={addInputField}
@@ -200,7 +204,7 @@ function Body() {
               </div>
             </div>
           )}
-        </>
+        </div>
       );
     });
   };
@@ -244,25 +248,30 @@ function Body() {
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-                {formName && (formName)}
+              
+                {previewData && <div dangerouslySetInnerHTML={{__html: formName}} ></div>}
+                <form>
                     {previewData ? (
-                      previewData.map((data, index) => {
-                        if (data.type === "button") {
+                      previewData.map((dt, index) => {
+                        if (dt.type === "button") {
                           return (
                             
-                              <Button
+                              <Button 
+                                variant="dark"
+                                name={dt.name}
+                                key={dt.id}
                                 onClick={() =>
-                                  handleNextPreviewSteps(data.page)
+                                  handleNextPreviewSteps(dt.page)
                                 }
                               >
-                                {data.placeholder}
+                                {dt.placeholder}
                               </Button>
                             
                           );
                         }
-                        if (data.type === "textarea") {
+                        if (dt.type === "textarea") {
                           return (
-                            <Form.Group className="mb-3" controlId={index}>
+                            <Form.Group className="mb-3" key={dt.id}>
                               <InputGroup>
                                 <InputGroup.Text>
                                   <FontAwesomeIcon
@@ -271,11 +280,12 @@ function Body() {
                                 </InputGroup.Text>
                                 <Form.Control
                                   as="textarea"
+                                  name={dt.name}
                                   rows={3}
-                                  placeholder={data.placeholder}
-                                  controlId={index}
+                                  placeholder={dt.placeholder}
+                                  controlId={dt.id}
                                   onBlur={(e) =>
-                                    handlePreviewField(e,index,data.page)
+                                    handlePreviewField(e,index,dt.page)
                                   }
                                 />
                               </InputGroup>
@@ -283,14 +293,14 @@ function Body() {
                           );
                         } else {
                           return (
-                            <Form.Group className="mb-3" controlId={index}>
+                            <Form.Group className="mb-3"  key={dt.id}>
                               <InputGroup>
                                 <InputGroup.Text>
-                                  {data.type === "text" ? (
+                                  {dt.type === "text" ? (
                                     <FontAwesomeIcon
                                       icon={["fas", "align-left"]}
                                     />
-                                  ) : data.type === "number" ? (
+                                  ) : dt.type === "number" ? (
                                     <FontAwesomeIcon icon={["fas", "phone"]} />
                                   ):(
                                     <FontAwesomeIcon icon={["fas", "at"]} />
@@ -298,10 +308,11 @@ function Body() {
                                 }
                                 </InputGroup.Text>
                                 <Form.Control
-                                  placeholder={data.placeholder}
-                                  controlId={index}
+                                  placeholder={dt.placeholder}
+                                  controlId={dt.id}
+                                  name={dt.id}
                                   onBlur={(e) =>
-                                    handlePreviewField(e,index,data.page)
+                                    handlePreviewField(e,index,dt.page)
                                   }
                                 />
                               </InputGroup>
@@ -312,7 +323,7 @@ function Body() {
                     ) : (
                       <Thankyou />
                     )}
-                 
+                 </form>
               </div>
             </Container>
           </Modal.Body>
