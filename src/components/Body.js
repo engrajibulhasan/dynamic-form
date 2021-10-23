@@ -13,6 +13,8 @@ import Navigation from "./Navigation";
 import EditInputFields from "./shared/EditInputFields";
 import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
+import CkEditor from "./shared/CkEditor";
+
 
 function Body() {
   //Field Data
@@ -206,18 +208,13 @@ function Body() {
   return (
     <>
       <Navigation addNewPage={addNewPage} preview={preview} />
+      
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
-          <div className="form-group ">
-            <input
-              type="text"
-              className="form-input form-title"
-              name="formTitle"
-              id="formTitle"
-              placeholder="Form Title"
-            />
-          </div>
+         
+            <CkEditor setFormName={setFormName}></CkEditor>
+          
           {showFields()}
         </div>
 
@@ -247,14 +244,12 @@ function Body() {
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-                {previewData && <h1>Form Headline</h1>}
-                <form>
-                  <ul>
+                {formName && (formName)}
                     {previewData ? (
                       previewData.map((data, index) => {
                         if (data.type === "button") {
                           return (
-                            <li>
+                            
                               <Button
                                 onClick={() =>
                                   handleNextPreviewSteps(data.page)
@@ -262,7 +257,7 @@ function Body() {
                               >
                                 {data.placeholder}
                               </Button>
-                            </li>
+                            
                           );
                         }
                         if (data.type === "textarea") {
@@ -317,8 +312,7 @@ function Body() {
                     ) : (
                       <Thankyou />
                     )}
-                  </ul>
-                </form>
+                 
               </div>
             </Container>
           </Modal.Body>

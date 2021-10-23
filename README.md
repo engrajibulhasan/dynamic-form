@@ -1,9 +1,8 @@
 # Dynamic Form Inspired By Tally.so
 
 ## Package Used
-- Font Awesome (for icon)
-- Bootstrap (For Design)
-- uuid (For Auto form number generation)
-- React Router (For Routing)
+- Font Awesome (Font Library)
+- Bootstrap react-bootstrap (CSS Framework)
+- ckeditor5-build-balloon-block (For inline Editor)
+- Tippy JS (For dropdown)
 - Beautiful DND (For Drag and Drop)
-- React Redux (For Data Storing)
