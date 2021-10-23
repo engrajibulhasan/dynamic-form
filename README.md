@@ -6,4 +6,7 @@
 - ckeditor5-build-balloon-block (For inline Editor)
 - Tippy JS (For dropdown)
 - UUid added (For unique ID generation)
-- Beautiful DND (For Drag and Drop)
+- AXIOS added (For imgbb photo upload)
+- Beautiful DND (will use later-)
+
+
