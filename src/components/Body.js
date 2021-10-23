@@ -15,6 +15,9 @@ import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
 import CkEditor from "./shared/CkEditor";
 import { v4 as uuidv4 } from "uuid";
+import UploadModal from "./shared/UploadModal";
+import axios from 'axios';
+import ImagePreview from "./shared/ImagePreview";
 
 function Body() {
   //console.log(uuidv4());
@@ -29,7 +32,38 @@ function Body() {
     },
   ]);
 
-  // Modal Code
+  // Modal Photo Upload
+  const [cover,setCover]=useState('');
+  const [logo,setLogo]=useState('');
+  const [uploadStatus,setUploadStatus]=useState(false);
+  const [uploadType,setUploadType]=useState('');
+  const [uploadShow,setUploadShow]=useState(false);
+  const handleUploadClose = () => setUploadShow(false);
+  const handleUploadOpen=(type)=>{
+    setUploadShow(true);
+    console.log('Modal',type);
+    setUploadType(type);
+  }
+  console.log('the logo is:',logo);
+  console.log('the cover is:',cover);
+  const uploadImage=(e,type)=> {
+    setUploadStatus(true);
+    const dt=new FormData();
+    console.log('image',e.target.files[0],e.target.files[0].name);
+    dt.append('image',e.target.files[0],e.target.files[0].name);
+    axios.post(`https://api.imgbb.com/1/upload?expiration=600&key=b6726303b7e16dab66939c35da72d0d4`,dt)
+    .then(res=>{
+      if(res){
+        setUploadShow(false);
+        type==='logo'?setLogo(res.data.data.display_url):setCover(res.data.data.display_url);
+        setUploadStatus(false);
+      }
+    })
+  }
+
+
+
+  // Modal Add Fields
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -204,8 +238,8 @@ function Body() {
 
   return (
     <>
-      <Navigation addNewPage={addNewPage} preview={preview} />
-
+      <Navigation addNewPage={addNewPage} preview={preview} handleUploadOpen={handleUploadOpen}/>
+      <ImagePreview cover={cover} logo={logo} handleUploadOpen={handleUploadOpen}/>
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
@@ -215,13 +249,22 @@ function Body() {
           {showFields()}
         </div>
 
-        {/* Modal */}
+        {/* Modal for Field Insert */}
         <ModalAdd
           show={show}
           onHide={() => setShow(false)}
           handleClose={handleClose}
           modalData={modalData}
           addInputField={addInputField}
+        />
+        
+        <UploadModal
+          uploadShow={uploadShow}
+          onHide={() => setUploadShow(false)}
+          handleUploadClose={handleUploadClose}
+          uploadType={uploadType}
+          uploadImage={uploadImage}
+          uploadStatus={uploadStatus}
         />
 
         {/* Preview Modal */}
@@ -231,13 +274,8 @@ function Body() {
           dialogClassName="modal-100w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <Modal.Header>
-            <Modal.Title>Cover Image goes here</Modal.Title>
-            <Button onClick={() => setPreviewModal(false)}>
-              <FontAwesomeIcon icon={["fas", "edit"]} /> Back to Edit
-            </Button>
-          </Modal.Header>
-
+      
+          <ImagePreview cover={cover} logo={logo} handleUploadOpen={handleUploadOpen} setPreviewModal={setPreviewModal} prevModal/>
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
@@ -274,6 +312,7 @@ function Body() {
                               <Form.Control
                                 as="textarea"
                                 name={dt.name}
+                                type={dt.type}
                                 rows={3}
                                 placeholder={dt.placeholder}
                                 controlId={dt.id}
@@ -303,6 +342,7 @@ function Body() {
                                 placeholder={dt.placeholder}
                                 controlId={dt.id}
                                 name={dt.id}
+                                type={dt.type}
                                 onBlur={(e) =>
                                   handlePreviewField(e, index, dt.page)
                                 }

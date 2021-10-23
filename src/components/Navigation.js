@@ -1,7 +1,7 @@
 import React from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './Navigation.css';
-function Navigation({addNewPage,preview}) {
+function Navigation({addNewPage,preview,handleUploadOpen}) {
     return (
         <header className="header-area container-fluid">
             <div className="header-left">
@@ -20,12 +20,12 @@ function Navigation({addNewPage,preview}) {
                         <span>New Page</span>
                     </li>
 
-                    <li>
+                    <li onClick={()=>handleUploadOpen('logo')}>
                         <FontAwesomeIcon icon={["fab", "pied-piper"]} />
                         <span>Logo</span>
                     </li>
 
-                    <li>
+                    <li onClick={()=>handleUploadOpen('cover photo')}>
                         <FontAwesomeIcon icon={["far", "image"]} />
                         <span>Cover</span>
                     </li>
