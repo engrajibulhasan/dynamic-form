@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Modal, Row } from "react-bootstrap";
+import { Button, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
 import Navigation from "./Navigation";
 import EditInputFields from "./shared/EditInputFields";
 import ModalAdd from "./shared/ModalAdd";
+import Thankyou from "./shared/Thankyou";
 
 function Body() {
   //Field Data
@@ -34,13 +35,13 @@ function Body() {
   const [previewFields, setPreviewFields] = useState([]);
   // Preview Modal ends
 
+ 
+
   //preview Modal
   //Single Step Data
   const [previewData, setPreviewData] = useState([]);
-
   const preview = () => {
     setPreviewModal(true); //Modal
-
     let filteredData = fields.filter((dt) => dt.page === 1); //Filter
     //console.log('Before state update',filteredData);
     setPreviewData(filteredData && filteredData); //State Update
@@ -62,6 +63,11 @@ function Body() {
     }
   };
 
+  //Haandle preview fields data
+  const handlePreviewIeld=(fieldValue,fieldObj)=>{
+    console.log('preview field value',fieldValue,fieldObj);
+  }
+
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
   const addNewPage = () => {
@@ -72,6 +78,7 @@ function Body() {
       page: currentPage,
       type: "button",
       placeholder: "Next Page",
+      value:''
     };
     oldFields.push(newPageBtn);
     setFields(oldFields);
@@ -122,6 +129,7 @@ function Body() {
       page: page,
       type: newFieldType,
       placeholder: "Add placeholder here",
+      value:''
     };
 
     if (type === "button") {
@@ -201,14 +209,15 @@ function Body() {
           dialogClassName="modal-100w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <Modal.Header closeButton>
+          <Modal.Header >
             <Modal.Title>Cover Image goes here</Modal.Title>
+            <Button onClick={()=>setPreviewModal(false)}><FontAwesomeIcon icon={["fas", "edit"]} /> Back to Edit</Button>
           </Modal.Header>
 
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-                <h1>Form Headline</h1>
+                {previewData&&<h1>Form Headline</h1>}
                 <form>
                   <ul>
                     {previewData ? (
@@ -225,12 +234,28 @@ function Body() {
                               </Button>
                             </li>
                           );
-                        } else {
-                          return <li>{data.placeholder}</li>;
+                        } if (data.type==='textarea') {
+                          return (
+                            <Form.Group className="mb-3" controlId={index}>
+                              <InputGroup>
+                                <InputGroup.Text><FontAwesomeIcon icon={["fas", "align-justify"]} /></InputGroup.Text>
+                                <Form.Control as="textarea" rows={3} placeholder={data.placeholder} controlId={index} onBlur={(e)=>handlePreviewIeld(e.target.value,data)} />
+                              </InputGroup>
+                            </Form.Group>
+                          );
+                        }else {
+                          return (
+                            <Form.Group className="mb-3" controlId={index}>
+                              <InputGroup>
+                                <InputGroup.Text>{data.type=='text'?<FontAwesomeIcon icon={["fas", "align-left"]} />:<FontAwesomeIcon icon={["fas", "phone"]} />}</InputGroup.Text>
+                                <Form.Control  placeholder={data.placeholder} controlId={index} onBlur={(e)=>handlePreviewIeld(e.target.value,data)} />
+                              </InputGroup>
+                            </Form.Group>
+                          );
                         }
                       })
                     ) : (
-                      <h1>Thank You</h1>
+                      <Thankyou/>
                     )}
                   </ul>
                 </form>
