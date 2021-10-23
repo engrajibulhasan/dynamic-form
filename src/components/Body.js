@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Container, Form, InputGroup, Modal, Row } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Form,
+  InputGroup,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
 import Navigation from "./Navigation";
@@ -35,19 +42,31 @@ function Body() {
   const [previewFields, setPreviewFields] = useState([]);
   // Preview Modal ends
 
- 
+  //Set preview single steps fields
+  const [previewFieldData,setPreviewFieldData]=useState();
 
   //preview Modal
   //Single Step Data
   const [previewData, setPreviewData] = useState([]);
   const preview = () => {
     setPreviewModal(true); //Modal
-    let filteredData = fields.filter((dt) => dt.page === 1); //Filter
-    //console.log('Before state update',filteredData);
+    let i=-1;
+    let currentPage=1;
+    const cloneAndModifyFields=fields.filter(dt=>dt.type!='button').map((dt,index)=>{
+        if(dt.page>currentPage){
+          currentPage=dt.page;
+          i=-1;
+        }
+        i++;
+        return {id:''+dt.page+i,placeholder:dt.placeholder,value:''};
+    })
+    setPreviewFieldData(cloneAndModifyFields);
+    const filteredData = fields.filter((dt) => dt.page === 1); //Filter
     setPreviewData(filteredData && filteredData); //State Update
-    console.log("Initial Preview", previewData && previewData); //State
   };
 
+
+  
   //For Next and Prev button
   const handleNextPreviewSteps = (step) => {
     console.log("previous step", step);
@@ -63,10 +82,19 @@ function Body() {
     }
   };
 
-  //Haandle preview fields data
-  const handlePreviewIeld=(fieldValue,fieldObj)=>{
-    console.log('preview field value',fieldValue,fieldObj);
-  }
+  
+  //Haandle preview fields data [[[Final Data of preview]]]
+  const handlePreviewField = (e,index,page) => {  
+    const id=''+page+index;
+    let oldData=[...previewFieldData];
+    const objIndex=oldData.findIndex(dt=>dt.id===id);
+    oldData[objIndex].value=e.target.value;
+    setPreviewFieldData(oldData);
+    console.log('##### Form Final Value :: ')
+  };
+
+
+
 
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
@@ -78,7 +106,7 @@ function Body() {
       page: currentPage,
       type: "button",
       placeholder: "Next Page",
-      value:''
+      value: "",
     };
     oldFields.push(newPageBtn);
     setFields(oldFields);
@@ -129,7 +157,7 @@ function Body() {
       page: page,
       type: newFieldType,
       placeholder: "Add placeholder here",
-      value:''
+      value: "",
     };
 
     if (type === "button") {
@@ -209,15 +237,17 @@ function Body() {
           dialogClassName="modal-100w"
           aria-labelledby="example-custom-modal-styling-title"
         >
-          <Modal.Header >
+          <Modal.Header>
             <Modal.Title>Cover Image goes here</Modal.Title>
-            <Button onClick={()=>setPreviewModal(false)}><FontAwesomeIcon icon={["fas", "edit"]} /> Back to Edit</Button>
+            <Button onClick={() => setPreviewModal(false)}>
+              <FontAwesomeIcon icon={["fas", "edit"]} /> Back to Edit
+            </Button>
           </Modal.Header>
 
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
-                {previewData&&<h1>Form Headline</h1>}
+                {previewData && <h1>Form Headline</h1>}
                 <form>
                   <ul>
                     {previewData ? (
@@ -234,28 +264,58 @@ function Body() {
                               </Button>
                             </li>
                           );
-                        } if (data.type==='textarea') {
+                        }
+                        if (data.type === "textarea") {
                           return (
                             <Form.Group className="mb-3" controlId={index}>
                               <InputGroup>
-                                <InputGroup.Text><FontAwesomeIcon icon={["fas", "align-justify"]} /></InputGroup.Text>
-                                <Form.Control as="textarea" rows={3} placeholder={data.placeholder} controlId={index} onBlur={(e)=>handlePreviewIeld(e.target.value,data)} />
+                                <InputGroup.Text>
+                                  <FontAwesomeIcon
+                                    icon={["fas", "align-justify"]}
+                                  />
+                                </InputGroup.Text>
+                                <Form.Control
+                                  as="textarea"
+                                  rows={3}
+                                  placeholder={data.placeholder}
+                                  controlId={index}
+                                  onBlur={(e) =>
+                                    handlePreviewField(e,index,data.page)
+                                  }
+                                />
                               </InputGroup>
                             </Form.Group>
                           );
-                        }else {
+                        } else {
                           return (
                             <Form.Group className="mb-3" controlId={index}>
                               <InputGroup>
-                                <InputGroup.Text>{data.type=='text'?<FontAwesomeIcon icon={["fas", "align-left"]} />:<FontAwesomeIcon icon={["fas", "phone"]} />}</InputGroup.Text>
-                                <Form.Control  placeholder={data.placeholder} controlId={index} onBlur={(e)=>handlePreviewIeld(e.target.value,data)} />
+                                <InputGroup.Text>
+                                  {data.type === "text" ? (
+                                    <FontAwesomeIcon
+                                      icon={["fas", "align-left"]}
+                                    />
+                                  ) : data.type === "number" ? (
+                                    <FontAwesomeIcon icon={["fas", "phone"]} />
+                                  ):(
+                                    <FontAwesomeIcon icon={["fas", "at"]} />
+                                  )
+                                }
+                                </InputGroup.Text>
+                                <Form.Control
+                                  placeholder={data.placeholder}
+                                  controlId={index}
+                                  onBlur={(e) =>
+                                    handlePreviewField(e,index,data.page)
+                                  }
+                                />
                               </InputGroup>
                             </Form.Group>
                           );
                         }
                       })
                     ) : (
-                      <Thankyou/>
+                      <Thankyou />
                     )}
                   </ul>
                 </form>
