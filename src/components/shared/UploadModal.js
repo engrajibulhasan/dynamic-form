@@ -1,6 +1,6 @@
 import React from "react";
 import "./UploadModal.css";
-import { Button, Form, Modal, Row } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function UploadModal({uploadStatus, uploadShow, handleUploadClose, uploadType,uploadImage }) {
@@ -23,9 +23,7 @@ function UploadModal({uploadStatus, uploadShow, handleUploadClose, uploadType,up
         </Modal.Header>
         <Modal.Body className="modal-body-area">
           <div>
-            <div id="preview">
-              <img id="image-preview" />
-            </div>
+            
             <form
               id="frmImage"
               class="form-area"

@@ -28,7 +28,6 @@ function EditPageSubmitButton({ btnInfo, updatePlaceholder }) {
             </div>
           }
           interactive={true}
-          animation={"shift-toward"}
         >
           <Button variant="light">
             <FontAwesomeIcon icon={["fas", "cog"]} />
@@ -54,7 +53,7 @@ function EditPageSubmitButton({ btnInfo, updatePlaceholder }) {
             </div>
           }
           interactive={true}
-          animation={"shift-toward"}
+          
         >
           <Button variant="dark">
             <span>{btnInfo.placeholder} </span>{" "}

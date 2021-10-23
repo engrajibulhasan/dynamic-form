@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Modal, Button, Row, Form } from "react-bootstrap";
+import { Modal, Button, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./ModalAdd.css";
 import LogicalDemoContent from "./LogicalDemoContent";
 
 function ModalAdd(props) {
-  const { show, onHide, handleClose, addInputField, modalData } = props;
+  const { show, handleClose, addInputField, modalData } = props;
   const [rigthContent, setRigthContent] = useState();
 
   //After clicking on input field type

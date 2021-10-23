@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 function EditActionButtons({
   allInfo,

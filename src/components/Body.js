@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Container,
   Form,
   InputGroup,
   Modal,
-  Row,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./Body.css";
@@ -77,7 +76,6 @@ function Body() {
   // Modal Add Fields
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [modalData, setModalData] = useState({
     currentPage: "",
     prevIndex: "",
@@ -88,7 +86,6 @@ function Body() {
 
   // Preview Modal State
   const [previewModal, setPreviewModal] = useState(false);
-  const [previewFields, setPreviewFields] = useState([]);
   // Preview Modal ends
 
   //Set preview single steps fields
@@ -104,7 +101,7 @@ function Body() {
     let i = -1;
     let currentPage = 1;
     const cloneAndModifyFields = fields
-      .filter((dt) => dt.type != "button")
+      .filter((dt) => dt.type !== "button")
       .map((dt, index) => {
         if (dt.page > currentPage) {
           currentPage = dt.page;
@@ -169,7 +166,7 @@ function Body() {
   // Page Remove functionality
   const removePage = (pageNumber) => {
     //setTotalPage(totalPage-1);
-    const keepFields = fields.filter((dt) => dt.page != pageNumber);
+    const keepFields = fields.filter((dt) => dt.page !== pageNumber);
     setFields(keepFields);
     setTotalPage(totalPage - 1);
     console.log("after removal", fields);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Row } from "react-bootstrap";
+import { Form, Row } from "react-bootstrap";
 import EditActionButtons from "./EditActionButtons";
 import EditPageSubmitButton from "./EditPageSubmitButton";
 
@@ -10,7 +10,7 @@ function EditInputFields({
   removeFieldItem,
   updatePlaceholder,
 }) {
-  const { page, type, placeholder, index } = allInfo;
+  const { type, placeholder, index } = allInfo;
 
   const filedFilter = () => {
     if (type === "textarea") {
