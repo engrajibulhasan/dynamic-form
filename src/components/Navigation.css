@@ -35,6 +35,11 @@ ul{
     transition: 500ms;
 }
 
+.header-middle ul li a{
+    text-decoration: none;
+    color: black;
+}
+
 .header-middle ul li:hover{
     background-color: rgb(226, 226, 226);
 }
@@ -46,6 +51,23 @@ ul{
 .header-right{
     display: flex;
     align-items: center;
+}
+
+
+.header-right span a {
+    text-decoration: none;
+    color: #5a5a5a;
+    display: flex;
+    align-items: center;
+    transition: 500ms;
+}
+
+.header-right span a:hover {
+    color: #000;
+}
+
+.header-right span a svg {
+    font-size: 1.4rem;
 }
 
 .header-right svg {
