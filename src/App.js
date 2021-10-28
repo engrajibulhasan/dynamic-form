@@ -10,6 +10,7 @@ import {
   Link
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
+import DragAndDrop from "./components/DragAndDrop/DragAndDrop";
 
 
 library.add(fab, fas, far);
@@ -17,12 +18,12 @@ library.add(fab, fas, far);
 function App() {
   return (
     <Router>
-      
-      <Switch>
+      <Switch>.
           <Route exact path="/" >
             <Navigation otherPage/>
           </Route>
           <Route  path="/create-new-form" component={Body} />
+          <Route  path="/drag-and-drop" component={DragAndDrop} />
       </Switch>
     </Router>
   );

@@ -7,6 +7,6 @@
 - Tippy JS (For dropdown)
 - UUid added (For unique ID generation)
 - AXIOS added (For imgbb photo upload)
-- Beautiful DND (will use later-)
+- Beautiful DND (applied for experimental purposase)
 
 
