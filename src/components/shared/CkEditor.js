@@ -7,8 +7,7 @@ const CkEditor = ({ setFormName }) => {
     <div>
       <CKEditor
         editor={BlockEditor}
-        // data="<p>Hello from CKEditor 5!</p>"
-        data={`<h2>Add Title</h2>`}
+        data={`<h2>Form Title</h2>`}
         onReady={(editor) => {
           // You can store the "editor" and use when it is needed.
           console.log("Editor is ready to use!", editor);
@@ -28,6 +27,5 @@ const CkEditor = ({ setFormName }) => {
     </div>
   );
 };
-
 
 export default CkEditor;

@@ -1,24 +1,16 @@
-import React, { useState } from "react";
-import {
-  Button,
-  Container,
-  Form,
-  InputGroup,
-  Modal,
-} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
+import React, { useState } from "react";
+import { Button, Container, Form, InputGroup, Modal } from "react-bootstrap";
+import { v4 as uuidv4 } from "uuid";
 import "./Body.css";
 import Navigation from "./Navigation";
+import CkEditor from "./shared/CkEditor";
 import EditInputFields from "./shared/EditInputFields";
+import ImagePreview from "./shared/ImagePreview";
 import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
-import CkEditor from "./shared/CkEditor";
-import { v4 as uuidv4 } from "uuid";
 import UploadModal from "./shared/UploadModal";
-import axios from "axios";
-import ImagePreview from "./shared/ImagePreview";
-
-
 
 function Body() {
   //console.log(uuidv4());
@@ -28,12 +20,10 @@ function Body() {
       id: uuidv4(),
       page: 1,
       type: "button",
-      placeholder: "Button Page 1",
+      placeholder: "Edit Button",
       name: uuidv4(),
     },
   ]);
-
-
 
   // Modal Photo Upload states
   const [cover, setCover] = useState("");
@@ -47,8 +37,6 @@ function Body() {
     console.log("Modal", type);
     setUploadType(type);
   };
-
-
 
   // Image Upload function -- imgbb api
   const uploadImage = (e, type) => {
@@ -71,8 +59,6 @@ function Body() {
       });
   };
 
-
-
   // Modal Add Fields
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -91,8 +77,6 @@ function Body() {
   //Set preview single steps fields
   const [previewFieldData, setPreviewFieldData] = useState();
 
-
-
   //preview Modal
   //Single Step Data
   const [previewData, setPreviewData] = useState([]);
@@ -102,20 +86,22 @@ function Body() {
     let currentPage = 1;
     const cloneAndModifyFields = fields
       .filter((dt) => dt.type !== "button")
-      .map((dt, index) => {
+      .map((dt) => {
         if (dt.page > currentPage) {
           currentPage = dt.page;
           i = -1;
         }
         i++;
-        return { id: "" + dt.page + i, placeholder: dt.placeholder, value: "" };
+        return {
+          id: "" + dt.page + i,
+          placeholder: dt.placeholder,
+          value: "",
+        };
       });
     setPreviewFieldData(cloneAndModifyFields);
     const filteredData = fields.filter((dt) => dt.page === 1); //Filter
     setPreviewData(filteredData && filteredData); //State Update
   };
-
-
 
   //For Next and Prev button
   const handleNextPreviewSteps = (step) => {
@@ -129,8 +115,6 @@ function Body() {
     }
   };
 
-
-
   //Haandle preview fields data [[[Final Data of preview]]]
   const handlePreviewField = (e, index, page) => {
     const id = "" + page + index;
@@ -140,8 +124,6 @@ function Body() {
     setPreviewFieldData(oldData);
     console.log("##### Form Final Value :: ", oldData);
   };
-
-
 
   // Add New Page functionality
   const [totalPage, setTotalPage] = useState(1);
@@ -161,8 +143,6 @@ function Body() {
     setTotalPage(currentPage);
   };
 
-
-
   // Page Remove functionality
   const removePage = (pageNumber) => {
     //setTotalPage(totalPage-1);
@@ -172,8 +152,6 @@ function Body() {
     console.log("after removal", fields);
   };
 
-
-
   //Single field removal functionality
   const removeFieldItem = (index) => {
     console.log("remove index number", index);
@@ -182,15 +160,11 @@ function Body() {
     setFields(oldFields);
   };
 
-
-
   //Open Modal and Passing Current (clicked) Field object
   const handleModal = (allInfo) => {
     setModalData(allInfo);
     setShow(true);
   };
-
-
 
   //Update Placeholder and Button Name
   const updatePlaceholder = (placeholder, index) => {
@@ -199,8 +173,6 @@ function Body() {
     oldFields[index].placeholder = placeholder;
     setFields(oldFields);
   };
-
-
 
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
@@ -225,8 +197,6 @@ function Body() {
     setFields(oldFields);
     console.log("all fields", oldFields);
   };
-
-
 
   //Showing All Fields from fields Array
   const showFields = () => {
@@ -262,8 +232,6 @@ function Body() {
     });
   };
 
-
-
   return (
     <>
       <Navigation
@@ -276,6 +244,7 @@ function Body() {
         logo={logo}
         handleUploadOpen={handleUploadOpen}
       />
+
       <Container>
         <div className="col-lg-8 mx-auto">
           {/* Form Title */}
@@ -328,6 +297,8 @@ function Body() {
             setPreviewModal={setPreviewModal}
             prevModal
           />
+
+          {/* Preview */}
           <Modal.Body className="preview-body">
             <Container>
               <div className="col-lg-8 mx-auto poreview-form-holder">
