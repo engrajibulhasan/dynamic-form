@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Modal, Button, Row } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "./ModalAdd.css";
+import React, { useEffect, useState } from "react";
+import { Button, Modal, Row } from "react-bootstrap";
 import LogicalDemoContent from "./LogicalDemoContent";
+import "./ModalAdd.css";
 
-function ModalAdd(props) {
-  const { show, handleClose, addInputField, modalData } = props;
+function ModalAdd({ show, handleClose, addInputField, modalData }) {
   const [rigthContent, setRigthContent] = useState();
 
   //After clicking on input field type
   const handleButtonType = (newFieldType) => {
     setRigthContent(
       <LogicalDemoContent
-        newFieldData={{ ...modalData, newFieldType: newFieldType }}
+        newFieldData={{ ...modalData, newFieldType }}
         addInputField={addInputField}
       />
     );
@@ -21,17 +20,15 @@ function ModalAdd(props) {
   //Initial Data
   useEffect(() => {
     const initialData = (
-      <>
-        <div className="initial-content text-center">
-          <FontAwesomeIcon icon={["fas", "plus"]} />
-          <h5>Insert Anything</h5>
-          <p>Choose input field type from the left side.</p>
-        </div>
-      </>
+      <div className="initial-content text-center">
+        <FontAwesomeIcon icon={["fas", "plus"]} />
+        <h5>Insert Anything</h5>
+        <p>Choose input field type from the left side.</p>
+      </div>
     );
     setRigthContent(initialData);
   }, [show]);
-
+  console.log("modalData", modalData);
   return (
     <>
       <Modal show={show} onHide={handleClose} size="lg" centered>
@@ -40,17 +37,16 @@ function ModalAdd(props) {
             <div className="col-lg-3 ul-area">
               <ul>
                 <li onClick={() => handleButtonType("text")}>
-                  <FontAwesomeIcon icon={["fas", "align-left"]} /> Short Answer
+                  <FontAwesomeIcon icon={["fas", "align-left"]} /> Short Field
                 </li>
                 <li onClick={() => handleButtonType("textarea")}>
-                  <FontAwesomeIcon icon={["fas", "align-justify"]} /> Long
-                  Answer
+                  <FontAwesomeIcon icon={["fas", "align-justify"]} /> Long Field
                 </li>
                 <li onClick={() => handleButtonType("email")}>
-                  <FontAwesomeIcon icon={["fas", "at"]} /> Email
+                  <FontAwesomeIcon icon={["fas", "at"]} /> Email Field
                 </li>
                 <li onClick={() => handleButtonType("number")}>
-                  <FontAwesomeIcon icon={["fas", "hashtag"]} /> Number
+                  <FontAwesomeIcon icon={["fas", "hashtag"]} /> Number Field
                 </li>
               </ul>
             </div>

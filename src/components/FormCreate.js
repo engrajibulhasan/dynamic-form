@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Button, Container, Form, InputGroup, Modal } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
-import "./Body.css";
+import "./FormCreate.css";
 import Navigation from "./Navigation";
 import CkEditor from "./shared/CkEditor";
 import EditInputFields from "./shared/EditInputFields";
@@ -12,7 +12,7 @@ import ModalAdd from "./shared/ModalAdd";
 import Thankyou from "./shared/Thankyou";
 import UploadModal from "./shared/UploadModal";
 
-function Body() {
+function FormCreate() {
   //console.log(uuidv4());
   const [formName, setFormName] = useState("Add Title");
   const [fields, setFields] = useState([
@@ -177,6 +177,7 @@ function Body() {
   //Add New Input Field functionality
   const addInputField = (newFieldData) => {
     setShow(false); //modal hiding
+
     const { page, type, index, newFieldType } = newFieldData;
     let oldFields = [...fields];
 
@@ -188,6 +189,9 @@ function Body() {
       placeholder: "Add placeholder here",
       name: uuidv4(),
     };
+
+    console.log("Fields", oldFields);
+    console.log("newFieldObj", newFieldObj);
 
     if (type === "button") {
       oldFields.splice(index, 0, newFieldObj);
@@ -205,7 +209,7 @@ function Body() {
       return (
         <div key={dt.id}>
           <EditInputFields
-            allInfo={{ ...dt, index: index }}
+            allInfo={{ ...dt, index }}
             handleModal={handleModal}
             addInputField={addInputField}
             removeFieldItem={removeFieldItem}
@@ -388,4 +392,4 @@ function Body() {
   );
 }
 
-export default Body;
+export default FormCreate;

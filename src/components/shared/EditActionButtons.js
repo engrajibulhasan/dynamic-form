@@ -1,10 +1,10 @@
-import React from "react";
+import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import { faGripVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 
 function EditActionButtons({
   allInfo,
-  addInputField,
   handleModal,
   isButton,
   removeFieldItem,
@@ -13,15 +13,15 @@ function EditActionButtons({
     <div className="col-lg-2 action-buttons">
       {!isButton && (
         <Button variant="light" onClick={() => removeFieldItem(allInfo.index)}>
-          <FontAwesomeIcon icon={["far", "trash-alt"]} />
+          <FontAwesomeIcon icon={faTrashAlt} />
         </Button>
       )}
 
       <Button variant="light" onClick={() => handleModal(allInfo)}>
-        <FontAwesomeIcon icon={["fas", "plus"]} />
+        <FontAwesomeIcon icon={faPlus} />
       </Button>
       <Button variant="light">
-        <FontAwesomeIcon icon={["fas", "grip-vertical"]} />
+        <FontAwesomeIcon icon={faGripVertical} />
       </Button>
     </div>
   );
